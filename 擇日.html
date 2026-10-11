@@ -146,7 +146,7 @@
     }
     .date-search-submit:hover { background: var(--green); }
     .date-search-submit:disabled { opacity: .65; cursor: wait; }
-    .date-search-processing { display: flex; align-items: center; gap: 14px; margin: 14px 0; padding: 20px; border: 1px solid #cddbc5; border-radius: 8px; background: linear-gradient(135deg, #f0f5eb, #fffefa); color: var(--green-dark); box-shadow: 0 4px 16px #2943230a; }
+    .date-search-processing { position: fixed; left: 50%; bottom: max(16px, env(safe-area-inset-bottom)); transform: translateX(-50%); z-index: 1000; display: flex; align-items: center; gap: 14px; width: min(520px, calc(100% - 32px)); max-height: calc(100dvh - 32px); overflow-y: auto; padding: 20px; border: 1px solid #cddbc5; border-radius: 8px; background: linear-gradient(135deg, #f0f5eb, #fffefa); color: var(--green-dark); box-shadow: 0 8px 32px #29432330; }
     .date-search-processing[hidden] { display: none; }
     .date-search-processing strong { display: block; font-size: 14px; font-weight: 500; }
     .date-search-processing p { margin: 5px 0 0; color: var(--muted); font-size: 11px; line-height: 1.7; }
@@ -313,25 +313,25 @@
     .owner-birth-entries { display: grid; gap: 9px; margin-top: 11px; }
     .owner-birth-entry { padding: 10px; border: 1px solid #ebe9e1; border-radius: 4px; }
     .owner-birth-entry-title { margin: 0 0 8px; color: var(--green-dark); font-size: 11px; font-weight: 500; }
-    .compass-widget { margin-top: 11px; padding: 11px; border: 1px solid #ebe9e1; border-radius: 4px; background: #fdfcf8; }
-    .compass-widget-title { margin: 0; color: var(--green-dark); font-size: 13px; font-weight: 500; cursor: pointer; }
+    .compass-widget { margin-top: 11px; padding: 16px; border: 1px solid #c6ac69; border-radius: 8px; background: linear-gradient(145deg, #fbf4dc, #f2e6bd 62%, #e9d9a7); box-shadow: inset 0 0 0 3px #fff9e7, 0 5px 18px rgba(79, 59, 24, .1); }
+    .compass-widget-title { margin: 0; color: #573e1c; font-size: 14px; font-weight: 600; letter-spacing: .04em; cursor: pointer; }
     .compass-widget[open] .compass-widget-title { margin-bottom: 12px; }
-    .compass-widget-help { margin: 5px 0 10px; color: #888b81; font-size: 10px; line-height: 1.6; }
+    .compass-widget-help { margin: 5px 0 12px; color: #75623d; font-size: 10px; line-height: 1.7; }
     .compass-layout { display: grid; grid-template-columns: 1fr; justify-items: center; gap: 10px; }
     .compass-dial {
       position: relative;
-      width: min(260px, 100%);
+      width: min(340px, 100%);
       aspect-ratio: 1;
-      border: 1px solid #c9cec2;
+      border: 5px double #806331;
       border-radius: 50%;
       background:
-        radial-gradient(circle, transparent 0 19.4%, #c9cec2 19.7% 20.1%, transparent 20.4% 30.4%, #c9cec2 30.7% 31.1%, transparent 31.4% 41%, #c9cec2 41.3% 41.7%, transparent 42%),
-        #fffefa;
-      color: var(--green-dark);
+        radial-gradient(circle, #fff9e8 0 18%, #f5e9bf 18% 100%);
+      box-shadow: 0 4px 12px rgba(67, 49, 19, .24), inset 0 0 0 2px #fff6d8;
+      color: #382d1d;
       font-family: sans-serif;
-      font-size: 9px;
+      font-size: 10px;
     }
-    .compass-spokes, .compass-degree-ticks, .compass-degree-labels, .compass-mountain-labels, .compass-trigram-labels {
+    .compass-spokes, .compass-degree-ticks, .compass-degree-labels, .compass-mountain-labels, .compass-trigram-labels, .compass-ring-grid {
       position: absolute;
       inset: 0;
       pointer-events: none;
@@ -342,30 +342,31 @@
       left: 50%;
       width: 1px;
       height: 88%;
-      background: #ba6557;
-      opacity: .48;
+      background: #a33e2c;
+      opacity: .66;
       transform: translate(-50%, -50%) rotate(var(--spoke-angle));
     }
     .compass-degree-tick {
       position: absolute;
       width: 1px;
       height: 3px;
-      background: #777a71;
+      background: #6b5934;
       transform: translate(-50%, -50%) rotate(var(--tick-angle));
     }
-    .compass-degree-tick.medium { height: 5px; background: #53584e; }
-    .compass-degree-tick.major { height: 9px; width: 1.5px; background: #343b33; }
+    .compass-degree-tick.medium { height: 5px; background: #65512d; }
+    .compass-degree-tick.major { height: 9px; width: 1.5px; background: #382e1d; }
     .compass-degree-label {
       position: absolute;
       z-index: 2;
       min-width: 12px;
-      color: #62665d;
+      color: #5d4c2b;
       font-size: 6px;
       line-height: 1;
       text-align: center;
       transform: translate(-50%, -50%);
     }
-    .compass-degree-label.cardinal { color: #a44e3c; font-weight: 700; }
+    .compass-degree-label.cardinal { color: #9b3024; font-size: 7px; font-weight: 700; }
+    .compass-ring-grid { width: 100%; height: 100%; fill: none; stroke: #907844; stroke-width: .3; }
     .compass-mountain-label {
       position: absolute;
       z-index: 3;
@@ -377,17 +378,19 @@
       font-size: 9px;
       line-height: 1;
     }
-    .compass-mountain-label.cardinal { color: #a44e3c; font-size: 9px; font-weight: 700; }
+    .compass-mountain-label.cardinal { color: #a32d23; font-size: 10px; font-weight: 700; }
+    .compass-ring-legend { width: 100%; margin: 0; padding: 9px; border: 1px solid #c6ac69; border-radius: 5px; color: #573e1c; font-size: 11px; line-height: 1.8; list-style: none; }
+    .compass-ring-readings { margin: 0; color: #573e1c; font-size: 11px; line-height: 1.8; white-space: pre-line; }
     .compass-trigram-label {
       position: absolute;
       z-index: 3;
-      color: #53584e;
+      color: #544326;
       font-size: 11px;
       font-weight: 600;
       line-height: 1;
       transform: translate(-50%, -50%);
     }
-    .compass-trigram-label.cardinal { color: #a44e3c; }
+    .compass-trigram-label.cardinal { color: #a32d23; }
     .compass-needle {
       position: absolute;
       top: 50%;
@@ -396,30 +399,31 @@
       width: 3px;
       height: 174px;
       border-radius: 3px;
-      background: linear-gradient(to bottom, #b85e47 0 48%, #8b9386 48% 100%);
+      background: linear-gradient(to bottom, #a32d23 0 48%, #806c43 48% 100%);
       transform: translate(-50%, -50%) rotate(var(--heading, 0deg));
       transform-origin: center;
       transition: transform .12s ease-out;
     }
-    .compass-hub { position: absolute; top: 50%; left: 50%; z-index: 5; width: 8px; height: 8px; border: 1px solid #fffefa; border-radius: 50%; background: var(--green-dark); transform: translate(-50%, -50%); }
-    .compass-reading { margin: 0 0 3px; color: var(--ink); font-family: sans-serif; font-size: 20px; font-variant-numeric: tabular-nums; }
-    .compass-reading-label { margin: 0; color: #888b81; font-size: 9px; }
-    .compass-status { min-height: 30px; margin: 6px 0; color: #777a71; font-size: 10px; line-height: 1.5; }
+    .compass-hub { position: absolute; top: 50%; left: 50%; z-index: 5; width: 12px; height: 12px; border: 2px solid #fff7db; border-radius: 50%; background: #a32d23; box-shadow: 0 0 0 1px #715427; transform: translate(-50%, -50%); }
+    .compass-reading { margin: 0 0 3px; color: #4a351b; font-family: sans-serif; font-size: 36px; font-weight: 600; font-variant-numeric: tabular-nums; letter-spacing: .02em; }
+    .compass-reading-label { margin: 0; color: #79643c; font-size: 10px; }
+    .compass-direction-reading { display: block; margin: 4px 0 12px; color: #8f3025; font-size: 15px; font-weight: 600; letter-spacing: .08em; }
+    .compass-status { min-height: 30px; margin: 8px 0; color: #695735; font-size: 10px; line-height: 1.6; }
     .compass-actions { display: grid; gap: 6px; }
     .compass-button {
       min-height: 33px;
       padding: 6px 8px;
-      border: 1px solid var(--green);
-      border-radius: 4px;
-      background: var(--green);
+      border: 1px solid #806331;
+      border-radius: 5px;
+      background: #806331;
       color: white;
       font: inherit;
       font-size: 10px;
       cursor: pointer;
     }
-    .compass-button.secondary { background: #fffefa; color: var(--green-dark); }
+    .compass-button.secondary { background: #fff9e8; color: #573e1c; }
     .compass-button:disabled { border-color: #deded6; background: #deded6; color: #777a71; cursor: default; }
-    .compass-captured { margin: 9px 0 0; color: var(--green-dark); font-size: 10px; }
+    .compass-captured { margin: 10px 0 0; color: #573e1c; font-size: 10px; line-height: 1.6; }
     .compass-degree-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 11px; }
     .compass-degree-fields .field-label { margin-bottom: 5px; }
     .compass-validation { margin: 7px 0 0; color: #777a71; font-size: 10px; line-height: 1.5; }
@@ -688,23 +692,23 @@
       </div>
       <p class="setup-help" id="topic-scope-note" hidden>本命表全年共用，只能儲存一份；不按年份建立副本。</p>
       <div class="top-note">慢慢挑，為重要的日子留一席</div>
-      <button class="setup-toggle" id="setup-toggle" type="button" aria-expanded="false">通書設定</button>
+      <button class="setup-toggle" id="setup-toggle" type="button" aria-expanded="false" hidden>通書設定</button>
     </header>
 
     <main>
       <section class="intro" aria-labelledby="page-title">
         <div class="eyebrow">A MOMENT TO CHOOSE</div>
         <h1 id="page-title">為重要日子，留一個好位置</h1>
-        <p>依序比對坐向吉課、所有屋主本命及太陽日期範圍，再排除時五黃入座山；資料缺漏或未校對時不可取用。</p>
+        <p>入宅、動土與新婚安床分開依用途篩選。動土查開工位置，安床查實際床位；再比對通書、本命、時辰及飛星，資料缺漏或未校對時不可取用。</p>
       </section>
 
       <section class="workspace" aria-label="日期選擇工作區">
         <section class="panel date-search-panel" aria-label="通書擇日搜尋">
           <h2 class="date-search-title">好日 好时 财源滚滚 旺旺旺</h2>
           <p class="date-search-status" id="date-search-status" role="status" aria-live="polite">正在讀取通書資料…</p>
-          <div class="date-search-processing" id="date-search-processing" role="status" aria-live="polite" hidden>
+          <div class="date-search-processing" id="date-search-processing" role="status" aria-live="polite" aria-atomic="true" hidden>
             <span class="date-search-spinner" aria-hidden="true"></span>
-            <div><strong>正在為你整理合適的日子…</strong><p>正在比對通書、住宅坐向及所有屋主本命，篩選日期與吉時。結果完成後會自動顯示，請稍候。</p></div>
+            <div><strong id="date-search-processing-title">擇日仍在處理中，請稍候…</strong><p id="date-search-processing-message">正在比對通書、住宅坐向及本命，篩選日期與吉時。此提示會保留至處理完成或失敗；請勿重複啟動。</p></div>
           </div>
           <div class="date-search-results" id="date-search-results" aria-live="polite"></div>
           <section class="bazi-panel" id="move-in-bazi-panel" hidden aria-labelledby="move-in-bazi-title" aria-live="polite">
@@ -739,7 +743,7 @@
 
           <section class="move-in-customer-form" id="move-in-customer-form" hidden aria-labelledby="move-in-customer-title">
             <h3 class="move-in-customer-title" id="move-in-customer-title">入宅屋主資料</h3>
-            <p class="move-in-customer-help">只需填所有屋主的出生日期；以所填日期的公曆年份直接找出本命。資料只留在目前頁面，不會保存或上傳。</p>
+            <p class="move-in-customer-help">填寫所有屋主（安床則填全部實際用床者）的出生日期；以所填日期的公曆年份直接找出本命。資料只留在目前頁面，不會保存或上傳。</p>
             <div class="move-in-customer-fields">
               <div class="move-in-customer-field">
                 <label class="field-label" for="move-in-owner-count">屋主人數（1–3）</label>
@@ -794,6 +798,7 @@
                     <option>戌山辰向</option><option>乾山巽向</option><option>亥山巳向</option>
                   </optgroup>
                 </select>
+                <p class="move-in-customer-help">坐東南／東北／西南／西北時，入宅、安床及動土改為直接查通書日柱，再審核全天十二完整時柱；不借用北／南／東吉課表。結果僅為本命候選，仍須用途與方位覆核。</p>
               </div>
               <div class="move-in-customer-field wide">
                 <div class="compass-degree-fields">
@@ -810,9 +815,28 @@
                 <button class="compass-button compass-confirm-button" id="compass-confirm" type="button" disabled>確認方向並填入住宅坐向</button>
               </div>
               <div class="move-in-customer-field wide">
-                <details class="compass-widget">
-                  <summary class="compass-widget-title" id="compass-widget-title">現場羅盤 · 展開測量</summary>
+                <section id="dong-tu-fields" hidden aria-labelledby="dong-tu-title">
+                  <h4 id="dong-tu-title">動土 · 嚴格模式（2027 年）</h4>
+                  <label class="field-label" for="dong-tu-start-degree">第一下動土／敲打位置的方位角度</label>
+                  <input class="move-in-customer-control" id="dong-tu-start-degree" type="number" min="0" max="360" step="0.1" inputmode="decimal" placeholder="從住宅中心量到實際開工位置，北為 0°">
+                  <p class="move-in-customer-help">這是施工位置，不是手機朝向或住宅坐向；不由屋前／屋後角度自動帶入。先避開施工方位年／月三煞、太歲、歲破及五黃；不自動合煞放行。太陽只作優先排序，不抵銷禁忌。資料缺漏會列待核。</p>
+                </section>
+              </div>
+              <div class="move-in-customer-field wide">
+                <section id="bed-fields" hidden aria-labelledby="bed-title">
+                  <h4 id="bed-title">新婚安床 · 嚴格模式（2027 年）</h4>
+                  <label class="field-label" for="bed-position-degree">床位所在方位角度</label>
+                  <input class="move-in-customer-control" id="bed-position-degree" type="number" min="0" max="360" step="0.1" inputmode="decimal" placeholder="從住宅中心量到床位，北為 0°">
+                  <label class="field-label" for="bed-head-degree">床頭朝向角度</label>
+                  <input class="move-in-customer-control" id="bed-head-degree" type="number" min="0" max="360" step="0.1" inputmode="decimal" placeholder="從床尾朝床頭量，北為 0°">
+                  <p class="move-in-customer-help">使用原書「嫁娶新婚安床吉日課」，不等同一般搬床。請在上方出生資料填寫所有實際用床者（1–3 人）；住宅坐向、床位所在宮與床頭朝向分開量，不自動帶入。只篩原表時辰，本命有利不是必要條件；太陽只排序。附注「清／制／顯／曲／傳／節後傳」及山家、床向、完整日課組合未核明時不可取用，不套用動土的土王／地兵庚時／施工三煞規則。</p>
+                </section>
+              </div>
+              <div class="move-in-customer-field wide">
+                <details class="compass-widget" open>
+                  <summary class="compass-widget-title" id="compass-widget-title">現場三合羅盤 · 三盤二十四山</summary>
                   <p class="compass-widget-help">在現場將手機保持水平，手機頂端朝向住宅正向。角度以北為 0°、順時針增加；附近金屬或磁石可能影響讀數。</p>
+                  <p class="compass-widget-help">目前繪製三合盤的三層二十四山，尚未包含分金、二十八宿等其他圈層。住宅坐向及擇日仍以地盤正針判定；人盤與天盤只供對照，不自動推斷砂水吉凶。</p>
                   <div class="compass-target">
                     <label class="field-label" for="compass-target">本次測量</label>
                     <select class="move-in-customer-control" id="compass-target">
@@ -821,19 +845,27 @@
                     </select>
                   </div>
                   <div class="compass-layout">
-                    <div class="compass-dial" id="compass-dial" role="img" aria-label="羅盤：外圈為度數刻度，內圈依序顯示二十四山與八卦，北方朝上">
+                    <div class="compass-dial" id="compass-dial" role="img" aria-label="三合羅盤：由內至外為八卦、地盤正針、人盤中針、天盤縫針與度數；北方朝上">
+                      <svg class="compass-ring-grid" id="compass-ring-grid" viewBox="0 0 100 100" aria-hidden="true"></svg>
                       <div class="compass-spokes" id="compass-spokes" aria-hidden="true"></div>
                       <div class="compass-degree-ticks" id="compass-degree-ticks" aria-hidden="true"></div>
                       <div class="compass-degree-labels" id="compass-degree-labels" aria-hidden="true"></div>
-                      <div id="compass-mountain-labels" aria-hidden="true"></div>
+                      <div class="compass-mountain-labels" id="compass-mountain-labels" aria-hidden="true"></div>
                       <div class="compass-trigram-labels" id="compass-trigram-labels" aria-hidden="true"></div>
                       <span class="compass-needle" id="compass-needle"></span>
                       <span class="compass-hub"></span>
                     </div>
+                    <ul class="compass-ring-legend" aria-label="三盤圈層說明">
+                      <li>內圈 · 地盤正針：子山中心 0°，用於定坐向。</li>
+                      <li>中圈 · 人盤中針：逆時針偏移 7.5°，子山中心 352.5°，供消砂對照。</li>
+                      <li>外圈 · 天盤縫針：順時針偏移 7.5°，子山中心 7.5°，供納水對照。</li>
+                    </ul>
                     <div>
                       <p class="compass-reading" id="compass-live-degree" aria-live="polite">--.-°</p>
                       <p class="compass-reading-label">目前手機朝向</p>
-                      <p class="compass-reading-label">外圈度數・二十四山・八卦</p>
+                      <strong class="compass-direction-reading" id="compass-live-direction">等待羅盤讀數</strong>
+                      <p class="compass-ring-readings" id="compass-ring-readings" aria-live="polite">三盤山位：等待羅盤讀數</p>
+                      <p class="compass-reading-label">目前坐向依地盤正針顯示</p>
                       <p class="compass-status" id="compass-status" role="status" aria-live="polite">按「啟用羅盤」並允許感測器；若此裝置不支援，可手動輸入角度。</p>
                       <div class="compass-actions">
                         <button class="compass-button secondary" id="compass-start" type="button">啟用羅盤</button>
@@ -856,6 +888,10 @@
         <section class="panel setup-panel">
           <h2 class="setup-heading" id="setup-heading">通書資料設定</h2>
           <p class="setup-description">入宅依序匹配 2027 年坐向吉課、本命日期及時支、實際座山太陽月日範圍。日期對每位屋主無相沖／三殺／三刑即可保留，不要求有利命中；時辰仍須每位屋主無避忌且至少一項有利，不推時干，組合條件不拆字加分。太陽順序：到山、到向、三合照一、三合照二；未命中淘汰，缺表待核，不借用相鄰座山。玄空飛星排除座山時五黃，時星無法核定不取用；無剩餘時辰的日期淘汰，其他層星數只供查閱。日柱差異及未校對不可取用，原文保留，不補時辰。</p>
+          <p class="setup-description">動土依《基礎擇日學》1、2 的流程另行處理：實際開工方位 → 對應坐向動土吉課與禁用月令 → 所有屋主本命 → 原表時辰與地兵庚時 → 施工位置及座山飛星 → 太陽優先排序。採嚴格模式，不自動合煞；本命有利只供比較，不要求人人命中。土王用事、年神／外環禁忌、箭刃／回頭貢殺等完整日課組合須逐日覆核；可在動土工作簿附加「動土逐日覆核」表，未完成者不可取用。逐字稿錯字不作規則猜測；其他施工位置須另行核對，本次結果只針對所填的第一下位置。</p>
+          <p class="setup-description">安床僅用原書 p.117–118「嫁娶新婚安床吉日課」：住宅坐向匹配 → 禁用月令 → 全部用床者本命日期及原表時支 → 床位所在宮飛星 → 太陽加強排序。無本命相沖／三殺／三刑即可保留，不要求有利命中；床位時五黃排除，年／月／日星供逐日覆核，不自行套用財位啟動門檻或動土專用規則。「其餘良時可自取」不自動產生新時辰，需人工另核。安床工作簿可附加「安床逐日覆核」表，核對原表及尾注、山家床向、所有用床者完整日課與床位飛星；覆核綁定本次人員、住宅實測角度及床位／床頭角度，缺漏、重複、不符或跨節氣、子時日界未核定時不可取用。安床附帶敲打／裝修，須另行通過動土流程。</p>
+          <p class="setup-description">擇日啟動後，畫面底部會持續顯示處理提示；等待超過 10 秒會提醒尚未完成。提示只在完成、失敗或變更輸入取消本次搜尋時關閉，不顯示虛構進度。</p>
+          <p class="setup-description">四斜向坐山（東南、東北、西南、西北）另用通書本命審核：直接讀取已保存「歷陽層上」逐日日柱，對所有屋主／用床者查相沖、三殺、三刑；日期無避忌後計算全天十二時辰的完整時柱（五鼠遁，UTC+8 標準時，不換算真太陽時），時干與時支均列本命配對，有利只供比较，不抵銷避忌。此模式不借用北／南／東吉課，不把計算的十二時辰稱為原書吉時；子時日界及跨節氣須分段覆核。通書用途、時辰禁忌、日課組合、山家、太陽及飛星仍需另核，通過本命不等於可取用。僅涵蓋已匯入的 2027 年日期，OCR 未校對仍為待核，缺日不補造。坐西仍不在此模式範圍。</p>
           <section class="topic-card" aria-label="通書主題設定">
             <div class="topic-kicker">通書主題</div>
             <div class="setup-field">
@@ -1003,6 +1039,11 @@
       "子", "癸", "丑", "艮", "寅", "甲", "卯", "乙", "辰", "巽", "巳", "丙",
       "午", "丁", "未", "坤", "申", "庚", "酉", "辛", "戌", "乾", "亥", "壬"
     ];
+    const COMPASS_MOUNTAIN_RINGS = [
+      { id: "earth", name: "地盤正針", offset: 0, radius: 25 },
+      { id: "human", name: "人盤中針", offset: -7.5, radius: 32 },
+      { id: "heaven", name: "天盤縫針", offset: 7.5, radius: 39 }
+    ];
     const SEXAGENARY_STEMS = ["甲", "乙", "丙", "丁", "戊", "己", "庚", "辛", "壬", "癸"];
     const SEXAGENARY_BRANCHES = ["子", "丑", "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥"];
     const SOLAR_TERM_APPROXIMATION_MINUTES = [
@@ -1054,11 +1095,11 @@
     const BASE_2027_FLYING_STARS = { N: 5, NE: 3, E: 7, SE: 8, S: 4, SW: 6, W: 2, NW: 1 };
     const topicDefinitions = [
       { id: "annual-direction", number: 1, name: "年吉否方位", activities: [], note: "每年一張方位圖；公曆年份未確認前不套用到日期篩選。" },
-      { id: "dong-tu", number: 2, name: "動土吉課", activities: ["動土"], note: "選擇「動土」用途時顯示。" },
+      { id: "dong-tu", number: 2, name: "動土吉課", activities: ["動土"], note: "依教材動土流程，先核對實際開工方位，再查坐向吉課、本命、原表時辰及施工／座山飛星；太陽只排序，不自動合煞。逐日原表校對、土王用事、年神及日課組合未完成覆核時不可取用。" },
       { id: "marriage-course", number: 3, name: "嫁娶吉課", activities: ["婚嫁"], note: "選擇「婚嫁」用途時顯示。" },
       { id: "marriage-match", number: 4, name: "男女合婚便覽", activities: ["婚嫁"], note: "婚嫁用途參考；需依雙方資料查閱。" },
-      { id: "bed-course", number: 5, name: "安床吉課", activities: ["安床"], note: "選擇「安床」用途時顯示。" },
-      { id: "move-in-course", number: 6, name: "入宅安香吉課", activities: ["入宅"], note: "坐向匹配後，以所有屋主本命篩日期：無相沖／三殺／三刑即可保留，有利只作展示。原表時支仍須每人無避忌且至少一項有利，不推時干；無合格時辰淘汰。再按實際座山太陽表篩日期，依到山、到向、三合照一、三合照二排序，缺表待核、不借山；玄空飛星排除座山時五黃，時星無法核定不取用，其他層星數只供查閱。原文保留，不補時辰；日柱差異及未校對不可取用。禁用月令仍排除，子時日界待核。其餘坐向依指定通書規則該年無可取用好日期，不借用相鄰坐向。" },
+      { id: "bed-course", number: 5, name: "安床吉課", activities: ["安床"], note: "新婚安床專用：按住宅坐向查原表，核全部用床者本命及原表時支、床位時五黃；太陽只排序。尾注、山家床向及完整日課需逐日覆核，未核不可取用，不套用動土禁忌。" },
+      { id: "move-in-course", number: 6, name: "入宅安香吉課", activities: ["入宅"], note: "北／南／東坐向匹配後，以所有屋主本命篩日期：無相沖／三殺／三刑即可保留，有利只作展示。原表時支仍須每人無避忌且至少一項有利，不推時干；無合格時辰淘汰。再按實際座山太陽表篩日期，依到山、到向、三合照一、三合照二排序，缺表待核、不借山；玄空飛星排除座山時五黃，時星無法核定不取用，其他層星數只供查閱。原文保留，不補時辰；日柱差異及未校對不可取用。禁用月令仍排除，子時日界待核。四斜向另用歷陽層上逐日日柱與十二完整時柱本命審核，不借吉課表；通過本命仍待用途、日課及方位覆核。坐西不在此替代模式範圍。" },
       { id: "marriage-dates", number: 7, name: "嫁娶吉日", activities: ["婚嫁"], note: "選擇「婚嫁」用途時顯示。" },
       { id: "birth-chart", number: 8, name: "本命表", activities: [], sharedAcrossYears: true, note: "全年共用一份資料；供主人本命查閱。" },
       { id: "li-yang-layer", number: 9, name: "歷陽層上", activities: [], note: "依公曆日期連結農曆、日柱、宜忌、時辰及神煞摘錄；來源為待覆核 OCR 初稿。" },
@@ -1070,6 +1111,9 @@
         headers: ["坐向", "月令", "管局 / 月规则", "公历日期", "农历日期", "日柱", "吉时编号", "吉时", "状态 / 备注", "来源"],
         columnWidths: [12, 10, 22, 16, 14, 10, 12, 20, 20, 26],
         templateFileName: "動土吉課_空白範本.xlsx",
+        additionalSheetHeaders: {
+          "動土逐日覆核": ["公历日期", "住宅坐向", "屋前角度", "屋後角度", "施工角度", "屋主年柱", "校对状态", "土王用事", "年神方位", "日课组合", "来源"]
+        },
         supportingSheets: [
           {
             name: "规则说明",
@@ -1080,7 +1124,13 @@
               ["月令管局", "甲辰管局、乙巳管局、丙午管局等", "MONTH_CONTROLLER", "按原书保存，不自行改写"],
               ["土王用事", "土王用事后不宜动土", "HARD_REJECT", "动土用途专用规则"],
               ["地兵庚时", "动土忌地兵庚时不取", "HARD_REJECT_HOUR", "按对应庚时排除"],
-              ["大利方", "先将大利方先起工吉", "START_DIRECTION_BONUS", "作为施工启动方位加分"]
+              ["大利方", "先将大利方先起工吉", "START_DIRECTION_BONUS", "作为施工启动方位加分"],
+              ["動土逐日覆核", "公历日期 YYYY-MM-DD，每日一行；来源填写教材／通书页码", "REVIEW", "缺漏、重复或未校对均待核"],
+              ["覆核适用范围", "住宅坐向如丁山癸向；屋前角度、屋後角度、施工角度0–360须与本次测量一致；屋主年柱依输入顺序以、分隔", "REVIEW", "改人或位置必须重核，不跨范围沿用"],
+              ["校对状态", "confirmed／已校对／已校對", "REVIEW", "核对当日所有匹配原表行的日期、日柱、吉时及附加条件"],
+              ["土王用事", "可动土／禁动土", "REVIEW", "按通书逐日核对，不猜测土王日期范围"],
+              ["年神方位", "已核对无禁忌／禁动土", "REVIEW", "核对施工位置及住宅坐向的年神、外环与叠煞"],
+              ["日课组合", "已核对无禁忌／禁动土", "REVIEW", "核对全部屋主箭刃／回头贡杀等组合，不自动合煞"]
             ]
           },
           {
@@ -1107,6 +1157,9 @@
         headers: ["坐向", "月令", "管局 / 月规则", "公历日期", "农历日期", "日柱", "吉时编号", "吉时原文", "附注 / 尾注", "状态", "来源页", "校对状态"],
         columnWidths: [12, 10, 24, 16, 14, 10, 12, 24, 22, 16, 18, 18],
         templateFileName: "安床吉課_空白範本.xlsx",
+        additionalSheetHeaders: {
+          "安床逐日覆核": ["公历日期", "住宅坐向", "屋前角度", "屋後角度", "床位角度", "床頭角度", "用床者年柱", "校对状态", "原表尾注", "山家床向", "日课组合", "床位飞星", "来源"]
+        },
         supportingSheets: [
           {
             name: "规则说明",
@@ -1126,7 +1179,10 @@
               ["山家筛选", "房屋座山", "本表先按大方向坐向提供安床吉课；二十四山的山家关系需在后续规则层另算。", "MOUNTAIN_RULE_STAGE", "后续", "非本页直接资料"],
               ["玄空飞星", "年/月/日/时飞星", "本表不直接提供飞星；仅对通过通书筛选的日期和时辰再做玄空叠星。", "FLYING_STAR_STAGE", "后续", "与其他资料联动"],
               ["太阳加分", "太阳到山 / 到向 / 三合照", "属后续加分层，不应覆盖“煞方不取”等硬排除。", "SOLAR_BONUS_STAGE", "后续", "与太阳表联动"],
-              ["来源保真", "原书图片 p.117–118", "程序数据库应保留来源页和校对状态，方便日后逐格复核。", "SOURCE_PROVENANCE", "基础", "IMG_6410 / IMG_6411"]
+              ["来源保真", "原书图片 p.117–118", "程序数据库应保留来源页和校对状态，方便日后逐格复核。", "SOURCE_PROVENANCE", "基础", "IMG_6410 / IMG_6411"],
+              ["安床逐日覆核", "公历日期 YYYY-MM-DD，每日一行；来源写原书页码", "核对当日全部匹配原表行日期、日柱、吉时；校对状态填confirmed／已校对／已校對。", "REVIEW", "最高", "缺漏或重复均待核"],
+              ["覆核适用范围", "住宅坐向、屋前角度、屋後角度、床位角度、床頭角度、用床者年柱", "角度0–360须与本次测量一致；用床者年柱按输入顺序用、分隔。改人或角度必须重核。", "REVIEW", "最高", "不能跨范围沿用"],
+              ["覆核结论", "原表尾注／山家床向／日课组合／床位飞星", "每栏填已核对无禁忌或禁安床；日课组合须核全体用床者箭刃、回头贡杀等，床位飞星须核所有原表时辰。", "REVIEW", "最高", "不自动合煞，未辨识尾注不能自动放行"]
             ]
           },
           {
@@ -1329,6 +1385,7 @@
     let topicFormDirty = false;
     let dateSearchHasStarted = false;
     let dateSearchProcessing = false;
+    let dateSearchProcessingNoticeTimer = null;
     let dateSearchRunId = 0;
     let topicRecords = readTopicRecords();
     let annualChartData = readAnnualChartData();
@@ -3609,12 +3666,16 @@
     }
 
     function matchMoveInCourseRows(rows, houseSitting, year = 2027) {
+      return matchOrientationCourseRows(rows, houseSitting, year, "入宅安香吉課");
+    }
+
+    function matchOrientationCourseRows(rows, houseSitting, year, courseName) {
       const supported = ["坐北", "坐南", "坐東"];
       if (!supported.includes(houseSitting)) {
         return { error: `${year} 年此住宅坐向無可取用好日期（依指定通書坐向規則），不可取用，不借用相鄰坐向。` };
       }
       const matchingRows = rows.filter((row) => dateSearchSittingForRow(row) === houseSitting);
-      if (!matchingRows.length) return { error: `${year} 年沒有 ${houseSitting} 的入宅安香吉課資料，不可取用。` };
+      if (!matchingRows.length) return { error: `${year} 年沒有 ${houseSitting} 的${courseName}資料，不可取用。` };
       const rejectedMonths = new Set();
       const uncertainMonths = new Set();
       for (const row of matchingRows) {
@@ -3696,7 +3757,7 @@
         if (!raw) continue;
         if (/^[甲乙丙丁戊己庚辛壬癸]+$/.test(raw)) {
           if (stem && raw.includes(stem)) benefits.push(`${column}（${label}干 ${stem}；原表 ${raw}）`);
-        } else if (/^[子丑寅卯辰巳午未申酉戌亥]+$/.test(raw) && raw.length <= 2) {
+        } else if (/^[子丑寅卯辰巳午未申酉戌亥]+$/.test(raw) && (raw.length <= 2 || column === "進馬")) {
           if (raw.includes(branch)) benefits.push(`${column}（${label}支 ${branch}；原表 ${raw}）`);
         } else {
           deferred.push(`${column} ${raw}：組合或未辨識條件，不作單${label}有利命中`);
@@ -3999,7 +4060,10 @@
         return [palace, annual.error ? null : annual.star];
       }));
       return {
-        dateKey, hourBranch, hour, dayPillar, solarYear, annualWarning: [...annualErrors].join("；"),
+        dateKey, hourBranch, hour, dayPillar, solarYear, yearPillar,
+        monthPillar: SEXAGENARY_STEMS[modulo(SEXAGENARY_STEMS.indexOf(yearPillar[0]) % 5 * 2 + 2 + monthBoundary.month, 10)]
+          + SEXAGENARY_BRANCHES[modulo(monthBoundary.month + 2, 12)],
+        annualWarning: [...annualErrors].join("；"),
         forward: active.forward,
         sitting: housePalaceForMountainIndex(mountainIndex),
         cells: HOUSE_FLYING_GRID.map(([palace, label]) => ({
@@ -4121,11 +4185,23 @@
     }
 
     function setDateSearchProcessing(processing) {
+      clearTimeout(dateSearchProcessingNoticeTimer);
+      dateSearchProcessingNoticeTimer = null;
       dateSearchProcessing = processing;
       dateSearchProcessingPanel.hidden = !processing;
       dateSearchSubmitButton.disabled = processing;
       dateSearchSubmitButton.textContent = processing ? "正在擇日…" : "擇日啟動";
       dateSearchResults.setAttribute("aria-busy", String(processing));
+      const title = document.querySelector("#date-search-processing-title");
+      const message = document.querySelector("#date-search-processing-message");
+      title.textContent = "擇日仍在處理中，請稍候…";
+      message.textContent = "正在比對通書、住宅坐向及本命，篩選日期與吉時。此提示會保留至處理完成或失敗；請勿重複啟動。";
+      if (processing) {
+        dateSearchProcessingNoticeTimer = setTimeout(() => {
+          title.textContent = "擇日仍在處理中，尚未完成";
+          message.textContent = "本次處理時間較長，仍在等待搜尋完成，尚未產生完成結果。請保持頁面開啟；完成或失敗時會自動更新，請勿重複啟動。";
+        }, 10000);
+      }
     }
 
     async function runDateSearch() {
@@ -4134,10 +4210,17 @@
       setDateSearchProcessing(true);
       dateSearchResults.replaceChildren();
       dateSearchStatus.textContent = "擇日處理中，請稍候…";
-      dateSearchProcessingPanel.scrollIntoView({ block: "nearest" });
       try {
-        // Yield through a paint before the synchronous local search begins.
-        await new Promise((resolve) => requestAnimationFrame(() => setTimeout(resolve, 0)));
+        // Hidden tabs can suspend animation frames; do not strand a pending search.
+        await new Promise((resolve) => {
+          const finish = () => {
+            clearTimeout(fallback);
+            cancelAnimationFrame(frame);
+            resolve();
+          };
+          const fallback = setTimeout(finish, 100);
+          const frame = requestAnimationFrame(() => setTimeout(finish, 0));
+        });
         if (runId !== dateSearchRunId) return;
         dateSearchHasStarted = true;
         await renderDateSearchResults();
@@ -4256,15 +4339,15 @@
       card.append(details);
     }
 
-    function renderNatalMatchTable(entries) {
+    function renderNatalMatchTable(entries, personLabel = "屋主") {
       const wrapper = document.createElement("div");
       wrapper.className = "natal-match-table-wrap";
       const table = document.createElement("table");
       table.className = "natal-match-table";
       const caption = table.createCaption();
-      caption.textContent = "日期及保留時辰 · 屋主本命配對";
+      caption.textContent = `日期及保留時辰 · ${personLabel}本命配對`;
       const header = table.createTHead().insertRow();
-      for (const label of ["日期／時辰", "屋主 · 本命", "有利配對", "相沖／三殺／三刑"]) {
+      for (const label of ["日期／時辰", `${personLabel} · 本命`, "有利配對", "相沖／三殺／三刑"]) {
         const cell = document.createElement("th");
         cell.scope = "col";
         cell.textContent = label;
@@ -4289,7 +4372,7 @@
           const ownerCell = row.insertCell();
           ownerCell.className = "natal-match-owner";
           const owner = document.createElement("strong");
-          owner.textContent = `屋主 ${match.ownerIndex + 1}`;
+          owner.textContent = `${personLabel} ${match.ownerIndex + 1}`;
           const natal = document.createElement("span");
           natal.textContent = `本命 ${match.natal}`;
           ownerCell.append(owner, natal);
@@ -4313,7 +4396,7 @@
           benefitCell.append(benefits);
           if (!match.benefits.length) {
             const neutral = document.createElement("span");
-            neutral.textContent = "無有利命中 · 無日期避忌，保留";
+            neutral.textContent = "無有利命中 · 無本次避忌，保留";
             benefitCell.append(neutral);
           }
           if (match.deferred.length) {
@@ -4340,6 +4423,464 @@
       return wrapper;
     }
 
+    function dongTuShaAtDegree(branch, degree) {
+      const center = ["申", "子", "辰"].includes(branch) ? 180
+        : ["寅", "午", "戌"].includes(branch) ? 0
+        : ["亥", "卯", "未"].includes(branch) ? 270
+        : ["巳", "酉", "丑"].includes(branch) ? 90 : null;
+      if (center === null) return null;
+      return Math.abs(modulo(degree - center + 180, 360) - 180) <= 45;
+    }
+
+    function dongTuHourPillar(dayPillar, branch) {
+      return courseHourPillar(dayPillar, branch);
+    }
+
+    function courseHourPillar(dayPillar, branch) {
+      if (dateSearchCycleNumber(dayPillar) === null || !SEXAGENARY_BRANCHES.includes(branch)) return "";
+      return SEXAGENARY_STEMS[modulo(SEXAGENARY_STEMS.indexOf(dayPillar[0]) % 5 * 2
+        + SEXAGENARY_BRANCHES.indexOf(branch), 10)] + branch;
+    }
+
+    function dongTuSolarBoundaryWarning(dateKey, branch) {
+      return courseSolarBoundaryWarning(dateKey, branch);
+    }
+
+    function courseSolarBoundaryWarning(dateKey, branch) {
+      const [year, month, day] = dateKey.split("-").map(Number);
+      const middle = new Date(Date.UTC(year, month - 1, day, SEXAGENARY_BRANCHES.indexOf(branch) * 2 - 8));
+      for (let term = 0; term < 24; term += 1) {
+        const boundary = solarTermMoment(year, term);
+        if (!boundary) return "節氣時刻缺漏，無法核對完整時辰。";
+        if (boundary > new Date(middle.getTime() - 3600000) && boundary < new Date(middle.getTime() + 3600000)) {
+          return "原表時辰橫跨節氣，年／月柱或日／時飛星可能切換；中點排盤不可授權整個時段，須分段覆核。";
+        }
+      }
+      return "";
+    }
+
+    function courseDegreesMatch(recorded, measured) {
+      return recorded !== undefined && recorded !== null && recorded !== ""
+        && measured !== undefined && measured !== null && measured !== ""
+        && Number.isFinite(Number(recorded)) && Number(recorded) >= 0 && Number(recorded) <= 360
+        && Number.isFinite(Number(measured)) && Number(measured) >= 0 && Number(measured) <= 360
+        && normalizeCompassHeading(Number(recorded)) === normalizeCompassHeading(Number(measured));
+    }
+
+    function filterDongTuCourses(table, reviewTable, sitting, mountain, facing, startDegree, owners, options = {}) {
+      const year = options.year ?? 2027;
+      const starCalculator = options.starCalculator || calculateEventFlyingStars;
+      const solarFilter = options.solarFilter || filterMoveInSolarDates;
+      const degree = Number(startDegree);
+      if (startDegree === "" || startDegree === null || !Number.isFinite(degree) || degree < 0 || degree > 360) {
+        return { error: "請填寫從住宅中心量到第一下施工位置的角度（0–360°），不可借用住宅朝向。" };
+      }
+      if (!TWENTY_FOUR_MOUNTAINS.includes(mountain)) return { error: "住宅座山無效，不可篩選動土吉課。" };
+      if (!owners.length || owners.some((owner) => owner.error)) return { error: "所有屋主本命必須完成後才能篩選動土。" };
+      const matched = matchOrientationCourseRows(table, sitting, year, "動土吉課");
+      if (matched.error) return matched;
+      const startMountain = TWENTY_FOUR_MOUNTAINS[compassMountainIndexForHeading(degree)];
+      const startPalace = housePalaceForMountainIndex(TWENTY_FOUR_MOUNTAINS.indexOf(startMountain));
+      const sittingPalace = housePalaceForMountainIndex(TWENTY_FOUR_MOUNTAINS.indexOf(mountain));
+      const accepted = [];
+      const excluded = [];
+      for (const result of matched.results) {
+        const warnings = [];
+        const reasons = [];
+        if (result.rows.some((row) => row["日柱"] !== result.dayPillar)) reasons.push("原表日柱缺漏或與公曆推算不一致，待核，不可取用。");
+        const ownerMatches = owners.map((owner) => evaluateNatalDate(result.dayPillar, owner));
+        ownerMatches.forEach((match, index) => {
+          if (match.error || match.avoid.length) reasons.push(`屋主 ${owners[index].index + 1}：${match.error || match.avoid.join("、")}`);
+        });
+        const reviewRows = reviewTable.filter((row) => dateSearchDateKey(row["公历日期"]) === result.dateKey);
+        const review = reviewRows.length === 1 ? reviewRows[0] : null;
+        const reviewed = review && ["confirmed", "已校对", "已校對"].includes(review["校对状态"])
+          && review["来源"] && review["住宅坐向"] === facing && review["施工角度"] !== ""
+          && courseDegreesMatch(review["施工角度"], degree)
+          && courseDegreesMatch(review["屋前角度"], options.frontDegree)
+          && courseDegreesMatch(review["屋後角度"], options.rearDegree)
+          && review["屋主年柱"] === owners.map((owner) => owner.yearPillar).join("、");
+        if (!reviewed) warnings.push("原表未逐日校對，或覆核缺漏／重複／無來源／不符本次屋主、坐向和施工角度。");
+        for (const [field, pass] of [["土王用事", "可动土"], ["年神方位", "已核对无禁忌"], ["日课组合", "已核对无禁忌"]]) {
+          if (reviewed && review[field] === "禁动土") reasons.push(`${field}覆核為禁動土（${review["来源"]}）。`);
+          else if (!reviewed || review[field] !== pass) warnings.push(`${field}未完成覆核，不可取用。`);
+        }
+        const hourRows = result.rows.map((row) => {
+          const parsed = moveInCourseHours(row["吉时"] || "");
+          if (parsed.warning) warnings.push(parsed.warning);
+          const keptHours = [];
+          const excludedHours = [];
+          for (const hour of parsed.hours) {
+            const hourReasons = [];
+            const hourWarnings = [];
+            const hourPillar = dongTuHourPillar(result.dayPillar, hour.branch);
+            const hourMatches = owners.map((owner) => evaluateNatalHour(hour.branch, owner));
+            hourMatches.forEach((match, index) => {
+              if (match.error || match.avoid.length) hourReasons.push(`屋主 ${owners[index].index + 1}：${match.error || match.avoid.join("、")}`);
+            });
+            if (hourPillar[0] === "庚") hourReasons.push(`地兵庚時不取（${hourPillar}）。`);
+            if (!hourPillar) hourWarnings.push("時柱無法核定。");
+            if (hour.branch === "子") hourWarnings.push("子時日界待核：只查當日 00:00，不授權晚子時。");
+            const boundaryWarning = dongTuSolarBoundaryWarning(result.dateKey, hour.branch);
+            if (boundaryWarning) hourWarnings.push(boundaryWarning);
+            const chart = starCalculator(result.dateKey, hour.branch, startMountain);
+            if (!chart || chart.error) hourWarnings.push(chart?.error || "施工位置飛星資料不足。");
+            else {
+              if (dongTuShaAtDegree(chart.yearPillar?.[1], degree) === null
+                || dongTuShaAtDegree(chart.monthPillar?.[1], degree) === null) {
+                hourWarnings.push("節氣年／月柱不足，三煞及太歲待核。");
+              } else {
+                if (dongTuShaAtDegree(chart.yearPillar[1], degree)) hourReasons.push(`${chart.solarYear} 年三煞入施工廣域方位。`);
+                if (dongTuShaAtDegree(chart.monthPillar[1], degree)) hourReasons.push(`${chart.monthPillar} 月三煞入施工廣域方位。`);
+                const taiSuiCenter = TWENTY_FOUR_MOUNTAINS.indexOf(chart.yearPillar[1]) * 15;
+                const distance = Math.abs(modulo(degree - taiSuiCenter + 180, 360) - 180);
+                if (distance <= 7.5) hourReasons.push("施工位置犯太歲；嚴格模式不自動合煞。");
+                if (distance >= 172.5) hourReasons.push("施工位置犯歲破；嚴格模式不自動合煞。");
+              }
+              const startCell = chart.cells.find((cell) => cell.palace === startPalace);
+              const sittingCell = chart.cells.find((cell) => cell.palace === sittingPalace);
+              for (const [field, label] of [["yearStar", "年"], ["monthStar", "月"], ["hourStar", "時"]]) {
+                if (!Number.isInteger(startCell?.[field]) || startCell[field] < 1 || startCell[field] > 9) hourWarnings.push(`施工位置${label}星無法核定。`);
+                else if (startCell[field] === 5) hourReasons.push(`${label}五黃入施工位置 ${startMountain}（${startCell.label}）。`);
+              }
+              if (!Number.isInteger(sittingCell?.hourStar) || sittingCell.hourStar < 1 || sittingCell.hourStar > 9) hourWarnings.push("座山時星無法核定。");
+              else if (sittingCell.hourStar === 5) hourReasons.push(`時五黃入住宅座山 ${mountain}。`);
+            }
+            const evaluatedHour = { ...hour, hourPillar, ownerMatches: hourMatches, chart,
+              warnings: hourWarnings, exclusionReason: hourReasons.join("；") };
+            if (hourReasons.length) excludedHours.push(evaluatedHour);
+            else keptHours.push(evaluatedHour);
+          }
+          return { row, keptHours, excludedHours, warning: parsed.warning };
+        });
+        if (!hourRows.some((item) => item.keptHours.length)) reasons.push("沒有剩餘原表時辰；不補時辰或借用其他用途吉課。");
+        const solar = solarFilter([result], mountain);
+        if (solar.error) warnings.push(`太陽加強條件待核：${solar.error}`);
+        const solarResult = solar.accepted?.[0];
+        const evaluated = { ...result, ownerMatches, hourRows, startMountain,
+          solarMatches: solarResult?.solarMatches || [], solarRank: solarResult?.solarRank || 5,
+          solarWarning: solar.error || "",
+          warnings: [...new Set(warnings)],
+          usable: !reasons.length && !warnings.length
+            && hourRows.some((item) => item.keptHours.some((hour) => !hour.warnings.length)),
+          reviewSource: reviewed ? review["来源"] : "",
+          exclusionReason: reasons.join("；") };
+        if (reasons.length) excluded.push(evaluated);
+        else accepted.push(evaluated);
+      }
+      accepted.sort((a, b) => a.solarRank - b.solarRank || a.dateKey.localeCompare(b.dateKey));
+      return { accepted, excluded, counts: matched.counts, rejectedMonths: matched.rejectedMonths,
+        uncertainMonths: matched.uncertainMonths, startMountain };
+    }
+
+    function filterBedCourses(table, reviewTable, sitting, mountain, facing, bedDegree, people, options = {}) {
+      const year = options.year ?? 2027;
+      const starCalculator = options.starCalculator || calculateEventFlyingStars;
+      const solarFilter = options.solarFilter || filterMoveInSolarDates;
+      if (!courseDegreesMatch(bedDegree, bedDegree) || !courseDegreesMatch(options.headDegree, options.headDegree)) {
+        return { error: "請填寫床位所在角度及床頭朝向角度（0–360°），不可借用住宅坐向。" };
+      }
+      if (!TWENTY_FOUR_MOUNTAINS.includes(mountain)) return { error: "住宅座山無效，不可篩選安床。" };
+      if (!people.length || people.some((person) => person.error)) return { error: "所有實際用床者本命必須完成後才能篩選安床。" };
+      const matched = matchOrientationCourseRows(table, sitting, year, "新婚安床吉課");
+      if (matched.error) return matched;
+      const startMountain = TWENTY_FOUR_MOUNTAINS[compassMountainIndexForHeading(Number(bedDegree))];
+      const bedPalace = housePalaceForMountainIndex(TWENTY_FOUR_MOUNTAINS.indexOf(startMountain));
+      const accepted = [];
+      const excluded = [];
+      for (const result of matched.results) {
+        const warnings = [];
+        const reasons = [];
+        if (result.rows.some((row) => row["日柱"] !== result.dayPillar)) reasons.push("原表日柱缺漏或與公曆推算不一致，待核，不可取用。");
+        const ownerMatches = people.map((person) => evaluateNatalDate(result.dayPillar, person));
+        ownerMatches.forEach((match, index) => {
+          if (match.error || match.avoid.length) reasons.push(`用床者 ${people[index].index + 1}：${match.error || match.avoid.join("、")}`);
+        });
+        const reviews = reviewTable.filter((row) => dateSearchDateKey(row["公历日期"]) === result.dateKey);
+        const review = reviews.length === 1 ? reviews[0] : null;
+        const reviewed = review && moveInCourseRowIsConfirmed(review) && review["来源"]
+          && review["住宅坐向"] === facing
+          && courseDegreesMatch(review["屋前角度"], options.frontDegree)
+          && courseDegreesMatch(review["屋後角度"], options.rearDegree)
+          && courseDegreesMatch(review["床位角度"], bedDegree)
+          && courseDegreesMatch(review["床頭角度"], options.headDegree)
+          && review["用床者年柱"] === people.map((person) => person.yearPillar).join("、");
+        if (!reviewed) warnings.push("安床逐日覆核缺漏／重複／未校對／無來源，或不符本次用床者、住宅實測及床位／床頭角度。");
+        for (const field of ["原表尾注", "山家床向", "日课组合", "床位飞星"]) {
+          if (reviewed && review[field] === "禁安床") reasons.push(`${field}覆核為禁安床（${review["来源"]}）。`);
+          else if (!reviewed || review[field] !== "已核对无禁忌") warnings.push(`${field}未完成覆核，不可取用。`);
+        }
+        const hourRows = result.rows.map((row) => {
+          const parsed = moveInCourseHours(row["吉时原文"]);
+          if (parsed.warning) warnings.push(parsed.warning);
+          const keptHours = [];
+          const excludedHours = [];
+          for (const hour of parsed.hours) {
+            const hourReasons = [];
+            const hourWarnings = [];
+            const hourPillar = courseHourPillar(result.dayPillar, hour.branch);
+            const hourMatches = people.map((person) => evaluateNatalHour(hour.branch, person));
+            hourMatches.forEach((match, index) => {
+              if (match.error || match.avoid.length) hourReasons.push(`用床者 ${people[index].index + 1}：${match.error || match.avoid.join("、")}`);
+            });
+            if (!hourPillar) hourWarnings.push("時柱無法核定。");
+            if (hour.branch === "子") hourWarnings.push("子時日界待核，只查當日 00:00，不授權晚子時。");
+            const boundaryWarning = courseSolarBoundaryWarning(result.dateKey, hour.branch);
+            if (boundaryWarning) hourWarnings.push(boundaryWarning);
+            const chart = starCalculator(result.dateKey, hour.branch, startMountain);
+            if (!chart || chart.error) hourWarnings.push(chart?.error || "床位飛星資料不足。");
+            else {
+              const cell = chart.cells.find((cell) => cell.palace === bedPalace);
+              for (const [field, label] of [["yearStar", "年"], ["monthStar", "月"], ["dayStar", "日"], ["hourStar", "時"]]) {
+                if (!Number.isInteger(cell?.[field]) || cell[field] < 1 || cell[field] > 9) hourWarnings.push(`床位${label}星無法核定。`);
+              }
+              if (cell?.hourStar === 5) hourReasons.push(`時五黃入實際床位 ${startMountain}（${cell.label}），不可用。`);
+            }
+            const evaluated = { ...hour, hourPillar, ownerMatches: hourMatches, chart,
+              warnings: hourWarnings, exclusionReason: hourReasons.join("；") };
+            if (hourReasons.length) excludedHours.push(evaluated);
+            else keptHours.push(evaluated);
+          }
+          return { row, keptHours, excludedHours, warning: parsed.warning };
+        });
+        if (!hourRows.some((item) => item.keptHours.length)) reasons.push("沒有剩餘原表時辰；不從十二時辰補選，不借用其他用途吉課。");
+        const solar = solarFilter([result], mountain);
+        if (solar.error) warnings.push(`太陽加強資料待核：${solar.error}`);
+        const solarResult = solar.accepted?.[0];
+        const evaluated = { ...result, ownerMatches, hourRows, startMountain,
+          solarMatches: solarResult?.solarMatches || [], solarRank: solarResult?.solarRank || 5,
+          solarWarning: solar.error || "", warnings: [...new Set(warnings)],
+          reviewSource: reviewed ? review["来源"] : "", exclusionReason: reasons.join("；"),
+          usable: !reasons.length && !warnings.length
+            && hourRows.some((item) => item.keptHours.some((hour) => !hour.warnings.length)) };
+        if (reasons.length) excluded.push(evaluated);
+        else accepted.push(evaluated);
+      }
+      accepted.sort((a, b) => a.solarRank - b.solarRank || a.dateKey.localeCompare(b.dateKey));
+      return { accepted, excluded, counts: matched.counts, rejectedMonths: matched.rejectedMonths,
+        uncertainMonths: matched.uncertainMonths, startMountain };
+    }
+
+    function isDiagonalHouseFacing(facing) {
+      const mountain = /^(.+)山/.exec(facing)?.[1] || "";
+      const index = TWENTY_FOUR_MOUNTAINS.indexOf(mountain);
+      return index >= 0 && ["NE", "SE", "SW", "NW"].includes(housePalaceForMountainIndex(index));
+    }
+
+    function filterAlmanacNatalCourses(days, people, year = 2027) {
+      if (!people.length || people.some((person) => person.error)) {
+        return { error: "全部屋主／用床者本命必須完成後才能審核通書日柱。" };
+      }
+      const accepted = [];
+      const excluded = [];
+      const counts = { sourceDays: 0, invalid: 0, duplicate: 0 };
+      const grouped = new Map();
+      for (const day of days) {
+        const dateKey = dateSearchDateKey(day.gregorian_date);
+        if (!dateKey) { counts.invalid += 1; continue; }
+        if (Number(dateKey.slice(0, 4)) !== year) continue;
+        counts.sourceDays += 1;
+        if (!grouped.has(dateKey)) grouped.set(dateKey, []);
+        grouped.get(dateKey).push(day);
+      }
+      if (!counts.sourceDays) return { error: `缺少 ${year} 年有效通書逐日資料；請匯入歷陽層上，不借用吉課表或補造日期。` };
+      for (const [dateKey, sourceDays] of grouped) {
+        const day = sourceDays[0];
+        const dayPillar = String(day.day_ganzhi || "").trim();
+        const result = { dateKey, dayPillar, day, sourceDays, hours: [], usable: false };
+        if (sourceDays.length !== 1) {
+          counts.duplicate += 1;
+          excluded.push({ ...result, exclusionReason: "同日有多筆通書記錄，須核對來源，不任選其中一筆。" });
+          continue;
+        }
+        if (dateSearchCycleNumber(dayPillar) === null
+          || dayPillar !== dayPillarForDate(...dateKey.split("-").map(Number))) {
+          excluded.push({ ...result, exclusionReason: "通書日柱缺漏／無效或與公曆推算不一致；不以推算日柱替換原文。" });
+          continue;
+        }
+        const ownerMatches = people.map((person) => evaluateNatalDate(dayPillar, person));
+        const dateReasons = ownerMatches.flatMap((match, index) =>
+          match.error || match.avoid.length
+            ? [`第 ${people[index].index + 1} 位：${match.error || match.avoid.join("、")}`] : []);
+        if (dateReasons.length) {
+          excluded.push({ ...result, ownerMatches, exclusionReason: dateReasons.join("；") });
+          continue;
+        }
+        const warnings = ["僅完成日柱及時柱本命審核；通書用途／時辰、完整日課組合、山家、太陽及飛星未完成覆核，不可取用。"];
+        if (!["confirmed", "已校对", "已校對"].includes(day.review_status)) warnings.push("通書逐日日柱尚未校對；本命結果只供待核查閱。");
+        const hours = [...SEXAGENARY_BRANCHES].map((branch, index) => {
+          const hourPillar = courseHourPillar(dayPillar, branch);
+          const ownerMatches = people.map((person) => evaluateNatalComponents(hourPillar[0], branch, person, "時"));
+          const reasons = ownerMatches.flatMap((match, personIndex) =>
+            match.error || match.avoid.length
+              ? [`第 ${people[personIndex].index + 1} 位：${match.error || match.avoid.join("、")}`] : []);
+          const hourWarnings = [];
+          if (branch === "子") hourWarnings.push("子時涵蓋 00:00–00:59 與 23:00–23:59；此柱只審當日早子，晚子日界須另核，不授權整段。");
+          const boundary = courseSolarBoundaryWarning(dateKey, branch);
+          if (boundary) hourWarnings.push(boundary);
+          return { branch, hourPillar, ownerMatches, accepted: !reasons.length,
+            range: index === 0 ? "00:00–00:59／23:00–23:59（日界待核）"
+              : `${String(index * 2 - 1).padStart(2, "0")}:00–${String(index * 2).padStart(2, "0")}:59`,
+            warnings: hourWarnings, exclusionReason: reasons.join("；") };
+        });
+        const evaluated = { ...result, ownerMatches, hours, warnings };
+        if (hours.some((hour) => hour.accepted)) accepted.push(evaluated);
+        else excluded.push({ ...evaluated, exclusionReason: "十二時辰對本次所有人員均無可保留時柱；不放寬避忌。" });
+      }
+      accepted.sort((a, b) => a.dateKey.localeCompare(b.dateKey));
+      excluded.sort((a, b) => a.dateKey.localeCompare(b.dateKey));
+      return { accepted, excluded, counts };
+    }
+
+    function renderDiagonalAlmanacResults(activity) {
+      if (!compassDirectionConfirmed || !updateCompassValidation()) {
+        dateSearchStatus.textContent = "請先确认實測住宅坐向，再審核通書。";
+        return;
+      }
+      const people = collectMoveInOwnerNatals();
+      if (people.length !== Number(moveInOwnerCount.value)) {
+        dateSearchStatus.textContent = "人數與出生資料不一致，不可審核通書。";
+        return;
+      }
+      // Read workbook rows directly so duplicate dates are not hidden by the display index.
+      const days = recordsForTopic("li-yang-layer").filter((record) => Number(record.year) === 2027)
+        .flatMap((record) => rowsForWorkbookSheet(topicWorkbookCache.get(record.workbookStorageId) || record.workbook, "Days"));
+      const filtered = filterAlmanacNatalCourses(days, people);
+      if (filtered.error) {
+        dateSearchStatus.textContent = filtered.error;
+        return;
+      }
+      dateSearchStatus.textContent = `${activity} · ${houseFacingSelect.value} · 通書本命審核：${filtered.counts.sourceDays} 筆有效日期來源，${filtered.accepted.length} 個日期保留本命時柱，${filtered.excluded.length} 個日期淘汰／待核，${filtered.counts.invalid} 筆無效日期。每個保留日期審核全天十二完整時柱；全部仍待用途、日課與方位覆核，不等於原書吉時或可取用。`;
+      const appendText = (parent, text) => {
+        const paragraph = document.createElement("p");
+        paragraph.textContent = text;
+        parent.append(paragraph);
+      };
+      const label = activity === "安床" ? "用床者" : "屋主";
+      for (const result of filtered.accepted) {
+        const article = document.createElement("article");
+        article.className = "date-search-result";
+        const heading = document.createElement("h4");
+        heading.textContent = `${result.dateKey} · 通書 ${result.dayPillar} · 本命日期保留，待核不可取用`;
+        article.append(heading);
+        article.append(renderNatalMatchTable(result.ownerMatches.map((match) => ({ label: "通書日柱", match })), label));
+        const hoursPanel = document.createElement("details");
+        const hoursSummary = document.createElement("summary");
+        hoursSummary.textContent = `查看全天十二時柱審核：${result.hours.filter((hour) => hour.accepted).length} 個本命保留、${result.hours.filter((hour) => !hour.accepted).length} 個淘汰`;
+        hoursPanel.append(hoursSummary);
+        let hoursRendered = false;
+        hoursPanel.addEventListener("toggle", () => {
+          if (!hoursPanel.open || hoursRendered) return;
+          hoursRendered = true;
+          for (const hour of result.hours) {
+            const details = document.createElement("details");
+            details.className = "date-source-details";
+            const summary = document.createElement("summary");
+            summary.textContent = `${hour.branch}時 ${hour.range} · ${hour.hourPillar} · ${hour.accepted ? "本命保留，待核不可取用" : "本命淘汰"}`;
+            details.append(summary);
+            if (hour.exclusionReason) appendText(details, hour.exclusionReason);
+            if (hour.warnings.length) appendText(details, hour.warnings.join("；"));
+            if (hour.accepted) details.append(renderNatalMatchTable(hour.ownerMatches.map((match) => ({ label: hour.hourPillar, match })), label));
+            hoursPanel.append(details);
+          }
+        });
+        article.append(hoursPanel);
+        renderLiYangDayDetails(article, result.dateKey);
+        dateSearchResults.append(article);
+      }
+      const excluded = document.createElement("details");
+      const summary = document.createElement("summary");
+      summary.textContent = `查看 ${filtered.excluded.length} 個淘汰／待核日期`;
+      excluded.append(summary);
+      for (const result of filtered.excluded) {
+        appendText(excluded, `${result.dateKey} · 通書 ${result.dayPillar || "日柱缺漏"}：${result.exclusionReason}`);
+        for (const hour of result.hours) appendText(excluded, `${hour.hourPillar}：${hour.exclusionReason}`);
+      }
+      dateSearchResults.append(excluded);
+    }
+
+    function renderDongTuSearchResults() {
+      renderPositionCourseSearchResults("動土");
+    }
+
+    function renderPositionCourseSearchResults(activity) {
+      const isBed = activity === "安床";
+      const topicId = isBed ? "bed-course" : "dong-tu";
+      const positionLabel = isBed ? "床位" : "施工位置";
+      if (!compassDirectionConfirmed || !updateCompassValidation()) {
+        dateSearchStatus.textContent = `請先確認住宅方向，再篩選${activity}。`;
+        return;
+      }
+      const owners = collectMoveInOwnerNatals();
+      if (owners.length !== Number(moveInOwnerCount.value)) {
+        dateSearchStatus.textContent = `${isBed ? "用床者" : "屋主"}人數不一致，不可篩選${activity}。`;
+        return;
+      }
+      const record = topicForYear(topicId, 2027);
+      const table = dateSearchWorkbookTable(topicId, 2027);
+      if (!table || !table.rows.length) {
+        dateSearchStatus.textContent = `缺少 2027 年${activity}主表，請先匯入，不使用其他用途資料替代。`;
+        return;
+      }
+      const sheet = record.workbook.sheets.find((item) => item.name === `${activity}逐日覆核`);
+      const reviews = sheet ? sheet.rows.map((values) => Object.fromEntries(sheet.headers.map((header, index) => [header, String(values[index] ?? "").trim()]))) : [];
+      const filter = isBed ? filterBedCourses : filterDongTuCourses;
+      const filtered = filter(table.rows, reviews, houseSittingForSelectedFacing(),
+        houseFacingSelect.value.split("山")[0], houseFacingSelect.value,
+        document.querySelector(isBed ? "#bed-position-degree" : "#dong-tu-start-degree").value, owners,
+        { frontDegree: moveInFrontDegree.value, rearDegree: moveInRearDegree.value,
+          headDegree: document.querySelector("#bed-head-degree").value });
+      if (filtered.error) {
+        dateSearchStatus.textContent = filtered.error;
+        return;
+      }
+      dateSearchStatus.textContent = `${isBed ? "新婚安床" : activity}嚴格模式：${positionLabel} ${filtered.startMountain}；${filtered.accepted.length} 個候選日期，${filtered.accepted.filter((result) => result.usable).length} 個完成覆核，${filtered.excluded.length} 個淘汰／待核日期。禁用月令：${filtered.rejectedMonths.join("、") || "無"}；原表跳過無效日期／月令 ${filtered.counts.invalid} 行、禁用 ${filtered.counts.rejected} 行。帶警告日期及時辰不可取用；太陽只排序。`;
+      const appendText = (parent, text) => {
+        const paragraph = document.createElement("p");
+        paragraph.textContent = text;
+        parent.append(paragraph);
+      };
+      for (const result of filtered.accepted) {
+        const article = document.createElement("article");
+        article.className = "date-search-result";
+        const heading = document.createElement("h4");
+        heading.textContent = `${result.dateKey} · ${result.dayPillar} · ${result.usable ? "完成指定檢查" : "待核 · 不可取用"}`;
+        article.append(heading);
+        appendText(article, `${isBed ? "嫁娶新婚安床" : activity}原表：${record.source || record.workbook.fileName}；住宅 ${houseFacingSelect.value}，${positionLabel} ${result.startMountain}${isBed ? `，床頭 ${document.querySelector("#bed-head-degree").value}°` : ""}。${result.solarWarning ? "太陽加強資料不足，未作匹配結論" : result.solarMatches.map((match) => match.label).join("、") || "未命中太陽加強範圍（不因此淘汰）"}。${result.reviewSource ? `覆核來源：${result.reviewSource}` : ""}`);
+        if (result.warnings.length) appendText(article, result.warnings.join("；"));
+        article.append(renderNatalMatchTable(result.ownerMatches.map((match) => ({ label: `${result.dateKey} 日柱`, match })), isBed ? "用床者" : "屋主"));
+        for (const item of result.hourRows) {
+          appendText(article, `原表吉時：${item.row[isBed ? "吉时原文" : "吉时"] || "缺漏"}；月令管局：${item.row["管局 / 月规则"] || "缺漏"}；備註／尾注：${item.row[isBed ? "附注 / 尾注" : "状态 / 备注"] || "無"}；吉時編號：${item.row["吉时编号"] || "缺漏"}（不推斷）；來源：${item.row["来源页"] || item.row["来源"] || record.source || "待核"}`);
+          for (const hour of item.keptHours) {
+            appendText(article, `${hour.branch}時 · ${hour.hourPillar} · ${hour.range}：${!result.usable || hour.warnings.length ? "待核不可取用" : "完成指定檢查"}。${hour.warnings.join("；")}`);
+            article.append(renderNatalMatchTable(hour.ownerMatches.map((match) => ({ label: `${hour.branch}時`, match })), isBed ? "用床者" : "屋主"));
+            if (hour.chart && !hour.chart.error) {
+              const cell = hour.chart.cells.find((item) => item.palace === hour.chart.sitting);
+              appendText(article, `${positionLabel} ${result.startMountain} 年／月／日／時星：${cell ? [cell.yearStar, cell.monthStar, cell.dayStar, cell.hourStar].map((star) => star ?? "待核").join("／") : "待核"}。UTC+8 時辰中點，未換算真太陽時；按立春及節氣切換年／月；日星只供查閱，不套用財位啟動的 1689 門檻。`);
+            }
+          }
+          if (item.excludedHours.length) appendText(article, item.excludedHours.map((hour) => `${hour.branch}時淘汰：${hour.exclusionReason}`).join("；"));
+        }
+        renderLiYangDayDetails(article, result.dateKey);
+        dateSearchResults.append(article);
+      }
+      const details = document.createElement("details");
+      const summary = document.createElement("summary");
+      summary.textContent = `查看 ${filtered.excluded.length} 個淘汰／待核日期及方位規則`;
+      details.append(summary);
+      appendText(details, isBed
+        ? "僅供新婚安床，按住宅坐向查原表，以實際床位所在宮排飛星；床頭朝向另供山家床向覆核。時五黃入床位排除；年／月／日星供覆核，不自動套用動土施工禁忌或財位啟動門檻。尾注與完整日課未核不能取用，不自動合煞；若有敲打／裝修須另查動土。"
+        : "三煞按節氣年／月支三合局映射到對向廣域（中心左右各 45°，交界保守不取）；太歲／歲破按年支山及對山各 15°，交界不取。五黃看實際施工宮，不把年圖「大利」等同可動土。逐日覆核僅適用本次屋主、住宅坐向及第一下施工角度；改人或位置須重核，後續施工區域不在本次檢查範圍。");
+      for (const result of filtered.excluded) {
+        appendText(details, `${result.dateKey}：${result.exclusionReason}`);
+        for (const item of result.hourRows) {
+          if (item.warning) appendText(details, item.warning);
+          for (const hour of item.excludedHours) appendText(details, `${hour.branch}時：${hour.exclusionReason}`);
+        }
+      }
+      dateSearchResults.append(details);
+    }
+
     function renderDateSearchResults() {
       dateSearchResults.replaceChildren();
 
@@ -4356,8 +4897,20 @@
         return;
       }
       const occasion = occasionSelect.value;
+      if (["入宅", "安床", "動土"].includes(occasion) && isDiagonalHouseFacing(houseFacingSelect.value)) {
+        renderDiagonalAlmanacResults(occasion);
+        return;
+      }
+      if (occasion === "動土") {
+        renderDongTuSearchResults();
+        return;
+      }
+      if (occasion === "安床") {
+        renderPositionCourseSearchResults("安床");
+        return;
+      }
       if (occasion !== "入宅") {
-        dateSearchStatus.textContent = "目前只支援入宅坐向吉課及本命日期、時支篩選。";
+        dateSearchStatus.textContent = "請選擇入宅、動土或安床用途。";
         showEmptyMessage("不以其他用途的吉課資料代替入宅資料。");
         return;
       }
@@ -4537,7 +5090,7 @@
       entry.className = "owner-birth-entry";
       const title = document.createElement("legend");
       title.className = "owner-birth-entry-title";
-      title.textContent = `屋主 ${index + 1}`;
+      title.textContent = `${occasionSelect.value === "安床" ? "用床者" : "屋主"} ${index + 1}`;
       const fields = document.createElement("div");
       fields.className = "move-in-customer-fields owner-birth-fields";
 
@@ -4566,7 +5119,7 @@
     function syncMoveInOwnerBirthEntries() {
       const count = Number(moveInOwnerCount.value);
       if (!Number.isInteger(count) || count < 1 || count > 3) {
-        moveInOwnerCountError.textContent = "屋主人數請輸入 1 至 3 之間的整數。";
+        moveInOwnerCountError.textContent = `${occasionSelect.value === "安床" ? "用床者" : "屋主"}人數請輸入 1 至 3 之間的整數。`;
         moveInOwnerCountError.hidden = false;
         renderMoveInBaziSummary();
         return;
@@ -4830,7 +5383,8 @@
     }
 
     function renderMoveInBaziSummary() {
-      moveInBaziPanel.hidden = occasionSelect.value !== "入宅";
+      const personLabel = occasionSelect.value === "安床" ? "用床者" : "屋主";
+      moveInBaziPanel.hidden = !["入宅", "動土", "安床"].includes(occasionSelect.value);
       if (moveInBaziPanel.hidden) return;
       moveInBaziResults.replaceChildren();
       const owners = collectMoveInOwnerNatals();
@@ -4839,14 +5393,14 @@
         && owners.length === ownerCount;
       const status = document.querySelector("#move-in-natal-status");
       status.textContent = !countValid
-        ? "屋主人數無效；請填 1 至 3 位屋主，未完成前不可取用。"
+        ? `${personLabel}人數無效；請填 1 至 3 位${personLabel}，未完成前不可取用。`
         : "";
 
       const entries = [...moveInOwnerBirthEntries.querySelectorAll(".owner-birth-entry")];
       if (!entries.length) {
         const message = document.createElement("p");
         message.className = "bazi-owner-message";
-        message.textContent = "填寫所有屋主出生日期後，本命及避忌／有利條件會顯示在這裡。";
+        message.textContent = `填寫所有${personLabel}出生日期後，本命及避忌／有利條件會顯示在這裡。`;
         moveInBaziResults.append(message);
         return;
       }
@@ -4856,7 +5410,7 @@
         card.className = "bazi-owner-card";
         const title = document.createElement("h4");
         title.className = "bazi-owner-title";
-        title.textContent = `屋主 ${index + 1}`;
+        title.textContent = `${personLabel} ${index + 1}`;
         card.append(title);
 
         const owner = owners[index];
@@ -4917,7 +5471,7 @@
         }
         const note = document.createElement("p");
         note.className = "bazi-owner-message";
-        note.textContent = "以上只照錄本命表，不補入表外的害、破等規則。箭刃兩字全及回頭貢殺三字全，須在後續候選日課四柱檢查；不能見其中一字就排除。有利條件不能抵銷避忌。";
+        note.textContent = "以上只照錄本命表，不補入表外的害、破等規則。進馬欄的地支為擇一配對，日支／時支命中其中一字便計有利，不要求全組齊全。箭刃兩字全及回頭貢殺三字全，須在後續候選日課四柱檢查；不能見其中一字就排除。有利條件不能抵銷避忌。";
         card.append(note);
         moveInBaziResults.append(card);
       }
@@ -4965,7 +5519,7 @@
     }
 
     function renderHouseFlyingStars() {
-      moveInHouseFlyingPanel.hidden = occasionSelect.value !== "入宅";
+      moveInHouseFlyingPanel.hidden = !["入宅", "動土", "安床"].includes(occasionSelect.value);
       moveInHouseFlyingGrid.replaceChildren();
       moveInHouseFlyingGrid.hidden = true;
       if (moveInHouseFlyingPanel.hidden) return;
@@ -5044,7 +5598,23 @@
     }
 
     function syncMoveInCustomerForm() {
-      const isMoveIn = occasionSelect.value === "入宅";
+      const isMoveIn = ["入宅", "動土", "安床"].includes(occasionSelect.value);
+      const isDongTu = occasionSelect.value === "動土";
+      const isBed = occasionSelect.value === "安床";
+      document.querySelector("#move-in-customer-title").textContent = isBed ? "新婚安床用床者及住宅資料" : isDongTu ? "動土屋主及住宅資料" : "入宅屋主資料";
+      document.querySelector("#move-in-bazi-title").textContent = isBed ? "用床者本命" : "屋主本命";
+      moveInOwnerBirthEntries.querySelectorAll("legend").forEach((legend, index) => {
+        legend.textContent = `${isBed ? "用床者" : "屋主"} ${index + 1}`;
+      });
+      document.querySelector('label[for="move-in-owner-count"]').textContent = `${isBed ? "用床者" : "屋主"}人數（1–3）`;
+      document.querySelector("#bed-fields").hidden = !isBed;
+      for (const id of ["#bed-position-degree", "#bed-head-degree"]) {
+        document.querySelector(id).required = isBed;
+        document.querySelector(id).disabled = !isBed;
+      }
+      document.querySelector("#dong-tu-fields").hidden = !isDongTu;
+      document.querySelector("#dong-tu-start-degree").required = isDongTu;
+      document.querySelector("#dong-tu-start-degree").disabled = !isDongTu;
       moveInCustomerForm.hidden = !isMoveIn;
       moveInCustomerForm.querySelectorAll("[data-required-for-move-in]").forEach((control) => {
         control.required = isMoveIn;
@@ -5060,6 +5630,26 @@
 
     function renderLuoPanDial() {
       const trigrams = ["坎", "艮", "震", "巽", "離", "坤", "兌", "乾"];
+      const grid = document.querySelector("#compass-ring-grid");
+      grid.replaceChildren();
+      for (const radius of [9, 21.5, 28.5, 35.5, 42.5]) {
+        const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        circle.setAttribute("cx", "50");
+        circle.setAttribute("cy", "50");
+        circle.setAttribute("r", String(radius));
+        grid.append(circle);
+      }
+      for (const ring of COMPASS_MOUNTAIN_RINGS) {
+        for (let index = 0; index < 24; index += 1) {
+          const angle = ((index * 15 + ring.offset - 7.5) * Math.PI) / 180;
+          const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+          line.setAttribute("x1", String(50 + Math.sin(angle) * (ring.radius - 3.5)));
+          line.setAttribute("y1", String(50 - Math.cos(angle) * (ring.radius - 3.5)));
+          line.setAttribute("x2", String(50 + Math.sin(angle) * (ring.radius + 3.5)));
+          line.setAttribute("y2", String(50 - Math.cos(angle) * (ring.radius + 3.5)));
+          grid.append(line);
+        }
+      }
       compassSpokes.replaceChildren();
       [0, 45, 90, 135].forEach((angle) => {
         const spoke = document.createElement("span");
@@ -5083,23 +5673,31 @@
       for (let degree = 0; degree < 360; degree += 10) {
         const label = document.createElement("span");
         label.className = `compass-degree-label${degree % 90 === 0 ? " cardinal" : ""}`;
-        label.textContent = String(degree);
+        label.textContent = degree === 0 ? "360" : String(degree);
         const angle = (degree * Math.PI) / 180;
-        label.style.left = `${50 + Math.sin(angle) * 39.5}%`;
-        label.style.top = `${50 - Math.cos(angle) * 39.5}%`;
+        label.style.left = `${50 + Math.sin(angle) * 44}%`;
+        label.style.top = `${50 - Math.cos(angle) * 44}%`;
         compassDegreeLabels.append(label);
       }
 
       compassMountainLabels.replaceChildren();
-      TWENTY_FOUR_MOUNTAINS.forEach((mountain, index) => {
-        const label = document.createElement("span");
-        label.className = `compass-mountain-label${index % 6 === 0 ? " cardinal" : ""}`;
-        label.textContent = mountain;
-        const angle = (index * 15 * Math.PI) / 180;
-        label.style.left = `${50 + Math.sin(angle) * 31.5}%`;
-        label.style.top = `${50 - Math.cos(angle) * 31.5}%`;
-        compassMountainLabels.append(label);
-      });
+      for (const ring of COMPASS_MOUNTAIN_RINGS) {
+        const layer = document.createElement("div");
+        layer.className = "compass-mountain-ring";
+        layer.dataset.ring = ring.id;
+        TWENTY_FOUR_MOUNTAINS.forEach((mountain, index) => {
+          const label = document.createElement("span");
+          label.className = `compass-mountain-label${index % 6 === 0 ? " cardinal" : ""}`;
+          label.textContent = mountain;
+          const degrees = normalizeCompassHeading(index * 15 + ring.offset);
+          label.dataset.centerDegree = String(degrees);
+          const angle = (degrees * Math.PI) / 180;
+          label.style.left = `${50 + Math.sin(angle) * ring.radius}%`;
+          label.style.top = `${50 - Math.cos(angle) * ring.radius}%`;
+          layer.append(label);
+        });
+        compassMountainLabels.append(layer);
+      }
 
       compassTrigramLabels.replaceChildren();
       trigrams.forEach((trigram, index) => {
@@ -5107,8 +5705,8 @@
         label.className = `compass-trigram-label${index % 2 === 0 ? " cardinal" : ""}`;
         label.textContent = trigram;
         const angle = (index * 45 * Math.PI) / 180;
-        label.style.left = `${50 + Math.sin(angle) * 20.5}%`;
-        label.style.top = `${50 - Math.cos(angle) * 20.5}%`;
+        label.style.left = `${50 + Math.sin(angle) * 15.5}%`;
+        label.style.top = `${50 - Math.cos(angle) * 15.5}%`;
         compassTrigramLabels.append(label);
       });
     }
@@ -5123,6 +5721,9 @@
       compassStartButton.textContent = "啟用羅盤";
       compassCaptureButton.disabled = true;
       compassLiveDegree.textContent = "--.-°";
+      document.querySelector("#compass-live-direction").textContent = "等待羅盤讀數";
+      document.querySelector("#compass-ring-readings").textContent = "三盤山位：等待羅盤讀數";
+      compassDial.setAttribute("aria-label", "三合羅盤：由內至外為八卦、地盤正針、人盤中針、天盤縫針與度數；北方朝上");
       compassNeedle.style.setProperty("--heading", "0deg");
       compassStatus.textContent = "羅盤已停止；再次選擇入宅後可重新啟用，或手動輸入角度。";
     }
@@ -5173,8 +5774,12 @@
       return true;
     }
 
+    function compassMountainIndexForHeading(degrees, offset = 0) {
+      return Math.floor(normalizeCompassHeading(degrees - offset + 7.5) / 15);
+    }
+
     function houseDirectionForHeading(degrees) {
-      const mountainIndex = Math.floor(((normalizeCompassHeading(degrees) + 7.5) % 360) / 15);
+      const mountainIndex = compassMountainIndexForHeading(degrees);
       const facingMountain = TWENTY_FOUR_MOUNTAINS[mountainIndex];
       const sittingMountain = TWENTY_FOUR_MOUNTAINS[(mountainIndex + 12) % 24];
       return `${sittingMountain}山${facingMountain}向`;
@@ -5215,7 +5820,13 @@
       liveCompassHeading = normalizeCompassHeading(heading);
       compassLiveDegree.textContent = `${liveCompassHeading.toFixed(1)}°`;
       compassNeedle.style.setProperty("--heading", `${liveCompassHeading}deg`);
-      compassDial.setAttribute("aria-label", `二十四山羅盤，北起順時針排列，目前朝向 ${liveCompassHeading.toFixed(1)} 度`);
+      const houseDirection = houseDirectionForHeading(liveCompassHeading);
+      document.querySelector("#compass-live-direction").textContent = houseDirection;
+      const ringReadings = COMPASS_MOUNTAIN_RINGS.map((ring) =>
+        `${ring.name}：${TWENTY_FOUR_MOUNTAINS[compassMountainIndexForHeading(liveCompassHeading, ring.offset)]}`
+      ).join("\n");
+      document.querySelector("#compass-ring-readings").textContent = ringReadings;
+      compassDial.setAttribute("aria-label", `三合羅盤，目前朝向 ${liveCompassHeading.toFixed(1)} 度，地盤坐向 ${houseDirection}；${ringReadings.replace(/\n/g, "；")}`);
       compassCaptureButton.disabled = false;
       compassStartButton.disabled = true;
       compassStartButton.textContent = "羅盤已啟用";
@@ -5320,15 +5931,16 @@
         renderDateSearchResults();
         return;
       }
-      if (occasionSelect.value === "入宅") {
+      if (["入宅", "動土", "安床"].includes(occasionSelect.value)) {
+        const personLabel = occasionSelect.value === "安床" ? "用床者" : "屋主";
         const owners = collectMoveInOwnerNatals();
         const unresolved = owners.find((owner) => owner.error);
         if (unresolved || owners.length !== Number(moveInOwnerCount.value) || !owners.length) {
           dateSearchHasStarted = false;
           renderDateSearchResults();
           dateSearchStatus.textContent = unresolved
-            ? `屋主 ${unresolved.index + 1} 本命未完成：${unresolved.error}`
-            : "請先完成所有屋主的本命資料；未完成不可取用。";
+            ? `${personLabel} ${unresolved.index + 1} 本命未完成：${unresolved.error}`
+            : `請先完成所有${personLabel}的本命資料；未完成不可取用。`;
           moveInBaziPanel.scrollIntoView({ block: "nearest" });
           return;
         }
@@ -5350,7 +5962,7 @@
     moveInFrontDegree.addEventListener("input", handleCompassDegreeInput);
     moveInRearDegree.addEventListener("input", handleCompassDegreeInput);
     houseFacingSelect.addEventListener("change", () => {
-      if (occasionSelect.value === "入宅") populateCompassDegreesFromHouseFacing();
+      if (["入宅", "動土", "安床"].includes(occasionSelect.value)) populateCompassDegreesFromHouseFacing();
       renderHouseFlyingStars();
     });
     moveInHousePeriodSelect.addEventListener("change", renderHouseFlyingStars);

@@ -24,8 +24,20 @@ function runNatalDateFilterTests({ evaluateNatalDate, filterMoveInDatesByNatals,
     && evaluateNatalDate("丁卯", rat).avoid.some((text) => text.startsWith("三刑")));
   check("Neutral date accepted", evaluateNatalDate("庚子", rat).accepted
     && evaluateNatalDate("庚子", rat).benefits.length === 0);
-  check("Partial triad combination not counted as horse benefit", evaluateNatalDate("庚辰", tiger).benefits.length === 0
-    && evaluateNatalDate("庚辰", tiger).deferred.some((text) => text.startsWith("進馬")));
+  check("One of three horse branches counts", evaluateNatalDate("庚辰", tiger).benefits.some((text) => text.startsWith("進馬"))
+    && !evaluateNatalDate("庚辰", tiger).deferred.some((text) => text.startsWith("進馬")));
+  const pig = owner("乙亥");
+  for (const pillar of ["己巳", "癸酉", "乙丑"]) {
+    const match = evaluateNatalDate(pillar, pig);
+    check(`${pillar} matches 巳酉丑 horse`, match.benefits.includes(`進馬（日支 ${pillar[1]}；原表 巳酉丑）`)
+      && !match.deferred.some((text) => text.startsWith("進馬")));
+  }
+  check("Horse cannot override clash", !evaluateNatalDate("己巳", pig).accepted);
+  check("Outside horse group not matched", !evaluateNatalDate("庚辰", pig).benefits.some((text) => text.startsWith("進馬")));
+  const combinationRow = [...tiger.natalRow];
+  combinationRow[2] = "巳酉丑";
+  check("Other three-branch groups still deferred", evaluateNatalDate("癸酉", { ...tiger, natalRow: combinationRow })
+    .deferred.some((text) => text.startsWith("三合")));
   check("Invalid sexagenary pair blocked", Boolean(evaluateNatalDate("甲丑", rat).error));
   check("Invalid pillar blocked", Boolean(evaluateNatalDate("", rat).error));
   check("Missing natal blocked", Boolean(evaluateNatalDate("庚辰", { index: 0 }).error));
