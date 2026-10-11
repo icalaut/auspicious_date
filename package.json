@@ -1,0 +1,8 @@
+{
+  "name": "auspicious-date",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "sh scripts/build-static.sh"
+  }
+}

@@ -12,11 +12,19 @@ its deploy command:
 npx wrangler deploy
 ```
 
+If Cloudflare has a separate build command configured, use `npm run build`.
+The package manifest defines this command without adding dependencies:
+
+```sh
+npm run build
+```
+
 Wrangler runs `sh scripts/build-static.sh` before deployment. The script copies
 the application into `dist/index.html` for the site root and `dist/擇日.html`
 for the original named URL. Only `dist/` is uploaded; tests, repository files,
-and the local Python environment are not published. No separate build command
-or application dependencies are required.
+and the local Python environment are not published. A separate build command
+is optional because Wrangler also runs the build; running both is safe.
+No application dependencies are required.
 
 To verify the asset upload configuration without deploying:
 
